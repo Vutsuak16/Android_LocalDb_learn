@@ -4,19 +4,24 @@ package echo.local_database_ipl;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.ArrayList;
+
 import echo.local_database_ipl.DBHelper;
 
 public class Activity2 extends ActionBarActivity {
 
-
     Button add, view;
     EditText name, franchise, price;
     DBHelper myDb;
+    static ArrayList arr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +39,20 @@ public class Activity2 extends ActionBarActivity {
                 String Name = name.getText().toString();
                 String Team = franchise.getText().toString();
                 String Worth = price.getText().toString();
-                myDb.insertPlayer(Name,Team,Worth);
+                myDb.insertPlayer(Name, Team, Worth);
                 name.setText(null);
                 franchise.setText(null);
                 price.setText(null);
-
             }
         });
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                 arr=myDb.getAllplayers();
 
-                System.out.println(myDb.getAllplayers());
                 Intent i = new Intent(Activity2.this, Activity1.class);
+                i.putStringArrayListExtra("arr_list", arr);
                 startActivity(i);
-
 
             }
         });

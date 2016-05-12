@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -25,14 +27,14 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table players " +
-                        "( name text,franchise,price)"
+                        "(name,franchise,price)"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS players");
         onCreate(db);
     }
 
@@ -50,8 +52,31 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllplayers() {
         ArrayList<String> array_list = new ArrayList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from players", null);
-        res.moveToFirst();
+        Cursor cursor = db.rawQuery("select * from players", null);
+        if (cursor.moveToFirst()) {
+            do {
+                String s=cursor.getString(0)+" "+cursor.getString(1)+" "+cursor.getString(2);
+                array_list.add(s);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        cursor.close();
+        db.close();
         return array_list;
     }
+    public void removeAll()
+    {
+        // db.delete(String tableName, String whereClause, String[] whereArgs);
+        // If whereClause is null, it will delete all rows.
+        SQLiteDatabase db = this.getWritableDatabase(); // helper is object extends SQLiteOpenHelper
+        db.delete("players", null, null);
+
+    }
+    public int numberOfRows(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, "players");
+        return numRows;
+    }
+
 }
