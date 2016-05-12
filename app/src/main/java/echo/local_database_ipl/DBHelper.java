@@ -67,9 +67,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public void removeAll()
     {
-        // db.delete(String tableName, String whereClause, String[] whereArgs);
-        // If whereClause is null, it will delete all rows.
-        SQLiteDatabase db = this.getWritableDatabase(); // helper is object extends SQLiteOpenHelper
+
+        SQLiteDatabase db = this.getWritableDatabase();
         db.delete("players", null, null);
 
     }

@@ -11,10 +11,15 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Activity1 extends ActionBarActivity {
 
-    static int k=0;
     Button info,disp,clear;
     DBHelper db;
     ArrayList arr_list;
@@ -27,15 +32,33 @@ public class Activity1 extends ActionBarActivity {
         disp=(Button)findViewById(R.id.disp);
         clear=(Button)findViewById(R.id.clr);
         db= new DBHelper(this);
+
         disp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(db.numberOfRows()!=0){
+                    Map<String, Integer> map = new HashMap<String, Integer>();
                      arr_list = getIntent().getStringArrayListExtra("arr_list");
-                    if(!arr_list.isEmpty()) {
+                    if(arr_list!=null) {
                         for (int i = 0; i < arr_list.size(); i++) {
-                            System.out.println((arr_list.get(i)));
+                            String []s=arr_list.get(i).toString().split("\\s+");
+                            map.put(Integer.toString(i),Integer.parseInt(s[s.length-1]));
                         }
+                        Set<Map.Entry<String, Integer>> set = map.entrySet();
+                        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(set);
+                        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+                            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                                return (o2.getValue()).compareTo(o1.getValue());
+                            }
+                        });
+                        for(Map.Entry<String, Integer> entry:list){
+                            //System.out.println(entry.getKey()+"=="+entry.getValue());
+                            System.out.println(arr_list.get(Integer.parseInt(entry.getKey())).toString());
+                        }
+                    }
+                    else{
+                        Toast.makeText(Activity1.this,"No data added , add some info",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -48,11 +71,8 @@ public class Activity1 extends ActionBarActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent i= new Intent(Activity1.this,Activity2.class);
                 startActivity(i);
-
 
             }
         });
@@ -75,19 +95,14 @@ public class Activity1 extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity1, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
