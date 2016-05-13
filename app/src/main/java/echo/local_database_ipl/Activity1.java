@@ -3,11 +3,16 @@ package echo.local_database_ipl;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
 
 
 import java.util.ArrayList;
@@ -33,9 +38,11 @@ public class Activity1 extends ActionBarActivity {
         clear=(Button)findViewById(R.id.clr);
         db= new DBHelper(this);
 
+
         disp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList <String>brr=new ArrayList <String>();
                 if(db.numberOfRows()!=0){
                     Map<String, Integer> map = new HashMap<String, Integer>();
                      arr_list = getIntent().getStringArrayListExtra("arr_list");
@@ -54,7 +61,12 @@ public class Activity1 extends ActionBarActivity {
                         for(Map.Entry<String, Integer> entry:list){
                             //System.out.println(entry.getKey()+"=="+entry.getValue());
                             System.out.println(arr_list.get(Integer.parseInt(entry.getKey())).toString());
+                            brr.add(arr_list.get(Integer.parseInt(entry.getKey())).toString());
                         }
+                        ListView listview = (ListView) findViewById(R.id.lv);
+                        ArrayAdapter adapter = new ArrayAdapter<String>(Activity1.this, R.layout.item, brr);
+                        listview.setAdapter(adapter);
+
                     }
                     else{
                         Toast.makeText(Activity1.this,"No data added , add some info",
@@ -82,6 +94,9 @@ public class Activity1 extends ActionBarActivity {
             public void onClick(View v) {
                 if(db.numberOfRows()!=0){
                         db.removeAll();
+                        ListView listView=(ListView)findViewById(R.id.lv);
+                        listView.setAdapter(null);
+
                 }
                 else{
                     Toast.makeText(Activity1.this,"List already empty",

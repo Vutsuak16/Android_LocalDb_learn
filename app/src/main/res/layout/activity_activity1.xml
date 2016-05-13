@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:text="ADD INFO"
         android:id="@+id/info"
-        android:layout_marginBottom="52dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/clr"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -20,15 +19,37 @@
         android:layout_height="wrap_content"
         android:text="display"
         android:id="@+id/disp"
-        android:layout_alignTop="@+id/info"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/clr" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="clearDB"
         android:id="@+id/clr"
-        android:layout_alignTop="@+id/info"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv"
+        android:layout_marginTop="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLAYER DETAILS"
+        android:id="@+id/heading"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>
