@@ -48,7 +48,7 @@ public class Activity1 extends ActionBarActivity {
                 ArrayList <String>brr=new ArrayList <String>();
                 if(db.numberOfRows()!=0){
                     Map<String, Integer> map = new HashMap<String, Integer>();
-                     arr_list = getIntent().getStringArrayListExtra("arr_list");
+                     arr_list =db.getAllplayers();
                     if(arr_list!=null) {
                         for (int i = 0; i < arr_list.size(); i++) {
                             String []s=arr_list.get(i).toString().split("\\s+");

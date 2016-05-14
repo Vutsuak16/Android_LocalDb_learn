@@ -48,10 +48,7 @@ public class Activity2 extends ActionBarActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 arr=myDb.getAllplayers();
-
                 Intent i = new Intent(Activity2.this, Activity1.class);
-                i.putStringArrayListExtra("arr_list", arr);
                 startActivity(i);
 
             }
