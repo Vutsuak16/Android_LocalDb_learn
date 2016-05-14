@@ -5,12 +5,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -63,9 +66,13 @@ public class Activity1 extends ActionBarActivity {
                             System.out.println(arr_list.get(Integer.parseInt(entry.getKey())).toString());
                             brr.add(arr_list.get(Integer.parseInt(entry.getKey())).toString());
                         }
-                        ListView listview = (ListView) findViewById(R.id.lv);
-                        ArrayAdapter adapter = new ArrayAdapter<String>(Activity1.this, R.layout.item, brr);
-                        listview.setAdapter(adapter);
+                        RecyclerView recyclerview = (RecyclerView) findViewById(R.id.rv);
+                        MyAdapter adapter=new MyAdapter();
+                        adapter.add(brr);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(Activity1.this);
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerview.setLayoutManager(layoutManager);
+                        recyclerview.setAdapter(adapter);
 
                     }
                     else{
@@ -94,8 +101,12 @@ public class Activity1 extends ActionBarActivity {
             public void onClick(View v) {
                 if(db.numberOfRows()!=0){
                         db.removeAll();
-                        ListView listView=(ListView)findViewById(R.id.lv);
-                        listView.setAdapter(null);
+                    RecyclerView recycleView=(RecyclerView)findViewById(R.id.rv);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Activity1.this);
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recycleView.setLayoutManager(layoutManager);
+                        recycleView.setAdapter(null);
+
 
                 }
                 else{
@@ -123,5 +134,47 @@ public class Activity1 extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private static class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private ArrayList<String> items = new ArrayList<String>();
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int i) {
+            viewHolder.text.setText(items.get(i));
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public void add(ArrayList <String> arr) {
+            for (int i = 0; i < arr.size(); i++) {
+                items.add(arr.get(i));
+            }
+
+            notifyItemInserted(0);
+        }
+
+        public void remove() {
+            if (items.isEmpty()) return;
+            items.remove(0);
+            notifyItemRemoved(0);
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView text;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                text = (TextView) itemView.findViewById(R.id.list_item);
+            }
+        }
     }
 }
