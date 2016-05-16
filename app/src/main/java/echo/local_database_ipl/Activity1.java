@@ -37,14 +37,8 @@ public class Activity1 extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity1);
         info=(Button)findViewById(R.id.info);
-        disp=(Button)findViewById(R.id.disp);
         clear=(Button)findViewById(R.id.clr);
         db= new DBHelper(this);
-
-
-        disp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 ArrayList <String>brr=new ArrayList <String>();
                 if(db.numberOfRows()!=0){
                     Map<String, Integer> map = new HashMap<String, Integer>();
@@ -84,8 +78,6 @@ public class Activity1 extends ActionBarActivity {
                     Toast.makeText(Activity1.this,"No data added , add some info",
                             Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
