@@ -10,18 +10,11 @@
         android:layout_height="wrap_content"
         android:text="ADD INFO"
         android:id="@+id/info"
-        android:layout_alignTop="@+id/clr"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="display"
-        android:id="@+id/disp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/clr" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="42dp"
+        android:layout_marginEnd="42dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -29,7 +22,10 @@
         android:text="clearDB"
         android:id="@+id/clr"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="42dp"
+        android:layout_marginStart="42dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
